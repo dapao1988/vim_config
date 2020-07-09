@@ -1,0 +1,50 @@
+pane	1	0	:bash	1	:*Z	0	:/home/cannon	0	bash	:
+pane	1	0	:bash	1	:*Z	1	:/home/cannon	1	bash	:
+pane	10	0	:bash	1	:*	0	:/home/cannon	1	bash	:
+pane	12	0	:bash	1	:*	0	:/home/cannon/oss/ai-tf/model-convert/recog	0	vim	:vim recog_converted.py
+pane	12	0	:bash	1	:*	1	:/home/cannon/oss/ai-tf/model-convert/recog	0	vim	:vim recog.json
+pane	12	0	:bash	1	:*	2	:/home/cannon/oss/ai-tf/model-convert/recog	1	bash	:
+pane	13	0	:bash	1	:*	0	:/home/cannon/Desktop/temp/cv_read	0	bash	:
+pane	13	0	:bash	1	:*	1	:/home/cannon/android-studio-workspace	0	bash	:
+pane	13	0	:bash	1	:*	2	:/home/cannon/Android/Sdk/ndk-bundle	1	bash	:
+pane	2	0	:vim	1	:*Z	0	:/home/cannon/PycharmProjects/mfcc-extractor	0	vim	:vim mfcc.py
+pane	2	0	:vim	1	:*Z	1	:/home/cannon/aife-sdk/alab/r2bbf	0	vim	:vim test_bbf/main.cpp
+pane	2	0	:vim	1	:*Z	2	:/home/cannon/PycharmProjects/mfcc-extractor	1	vim	:vim mymyfcc.py
+pane	4	0	:vim	1	:*	0	:/home/cannon	0	vim	:vim feats.scp
+pane	4	0	:vim	1	:*	1	:/home/cannon	1	vim	:vim text
+pane	5	0	:bash	1	:*Z	0	:/home/cannon	0	vim	:vim my_gmm.py
+pane	5	0	:bash	1	:*Z	1	:/home/cannon/oss/ai-tf	1	bash	:
+pane	7	0	:vim	1	:*Z	0	:/home/cannon/oss/ai-tf/opencv/opencv	0	vim	:vim /usr/local/include/opencv4/opencv2/core.hpp
+pane	7	0	:vim	1	:*Z	1	:/home/cannon/oss/ai-tf/opencv/opencv	1	bash	:
+pane	8	0	:bash	1	:*	0	:/home/cannon	0	bash	:
+pane	8	0	:bash	1	:*	1	:/home/cannon	1	bash	:
+pane	9	0	:bash	1	:*	0	:/home/cannon	0	bash	:
+pane	9	0	:bash	1	:*	1	:/home/cannon/aife-sdk/lothalproc/src	1	bash	:
+pane	asr	0	:bash	1	:*Z	0	:/home/cannon	0	bash	:
+pane	asr	0	:bash	1	:*Z	1	:/home/cannon	1	bash	:
+pane	kamino	0	:bash	1	:*Z	0	:/home/cannon/work/script/me	0	bash	:
+pane	kamino	0	:bash	1	:*Z	1	:/home/cannon/aife-sdk	0	bash	:
+pane	kamino	0	:bash	1	:*Z	2	:/home/cannon/aife-sdk/product-config/A113/me/xiaotixiaoti/model/emb	0	bash	:
+pane	kamino	0	:bash	1	:*Z	3	:/home/cannon	1	bash	:
+pane	mxnet	0	:bash	1	:*Z	0	:/home/cannon/oss/ai-tf/MXNet2Caffe	0	bash	:
+pane	mxnet	0	:bash	1	:*Z	1	:/home/cannon/Desktop/temp	0	vim	:vim /home/cannon/anaconda3/lib/python3.7/site-packages/numpy/lib/format.py +739
+pane	mxnet	0	:bash	1	:*Z	2	:/home/cannon/oss/ai-tf/MXNet2Caffe	0	vim	:vim json2prototxt.py
+pane	mxnet	0	:bash	1	:*Z	3	:/home/cannon/oss/ai-tf/MXNet2Caffe/model_caffe	1	vim	:vim deploy.prototxt
+pane	nn	0	:bash	1	:*	0	:/home/cannon/oss/ai-tf/myeasy_neural_network	0	bash	:
+pane	nn	0	:bash	1	:*	1	:/home/cannon/VirtualBox\ VMs	0	bash	:
+pane	nn	0	:bash	1	:*	2	:/home/cannon	1	bash	:
+window	1	0	1	:*Z	9295,80x24,0,0[80x11,0,0,0,80x12,0,12,1]
+window	10	0	1	:*	b25f,80x24,0,0,2
+window	12	0	1	:*	6f60,80x24,0,0{39x24,0,0,3,40x24,40,0[40x11,40,0,4,40x12,40,12,5]}
+window	13	0	1	:*	92b4,80x24,0,0{39x24,0,0[39x11,0,0,6,39x12,0,12,7],40x24,40,0,8}
+window	2	0	1	:*Z	5d2c,80x24,0,0{39x24,0,0[39x11,0,0,9,39x12,0,12,10],40x24,40,0,11}
+window	4	0	1	:*	7acd,80x24,0,0{39x24,0,0,12,40x24,40,0,13}
+window	5	0	1	:*Z	7ad2,80x24,0,0{39x24,0,0,14,40x24,40,0,15}
+window	7	0	1	:*Z	7ad7,80x24,0,0{39x24,0,0,16,40x24,40,0,17}
+window	8	0	1	:*	7adc,80x24,0,0{39x24,0,0,18,40x24,40,0,19}
+window	9	0	1	:*	bac9,80x24,0,0{39x24,0,0,20,40x24,40,0,21}
+window	asr	0	1	:*Z	bace,80x24,0,0{39x24,0,0,22,40x24,40,0,23}
+window	kamino	0	1	:*Z	e164,80x24,0,0{39x24,0,0[39x11,0,0,24,39x12,0,12,25],40x24,40,0[40x11,40,0,26,40x12,40,12,27]}
+window	mxnet	0	1	:*Z	74db,80x24,0,0{39x24,0,0[39x10,0,0,28,39x13,0,11,29],40x24,40,0[40x2,40,0,30,40x21,40,3,31]}
+window	nn	0	1	:*	a994,213x57,0,0{101x57,0,0[101x28,0,0,32,101x28,0,29,33],111x57,102,0,34}
+state	nn	

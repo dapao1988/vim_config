@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/cannon/Android/android-10.0.0_r20'
+let g:netrw_dirhist_1='/home/cannon/work/Inference'
+let g:netrw_dirhist_0='/home/cannon/work/RokidCNN'
+let g:netrw_dirhist_9='/home/cannon/work/Inference'
+let g:netrw_dirhist_8='/home/cannon/work/RokidCNN'
+let g:netrw_dirhist_7='/home/cannon/oss/ai-tf/ncnn'
+let g:netrw_dirhist_6='/home/cannon/Android/android-10.0.0_r20/external'
+let g:netrw_dirhist_5='/home/cannon/Android/android-10.0.0_r20/external/webrtc'
+let g:netrw_dirhist_4='/home/cannon/oss/ai-tf/openxr-simple-example'
+let g:netrw_dirhist_3='/home/cannon/oss/ai-tf/OpenXR-SDK-Source'
