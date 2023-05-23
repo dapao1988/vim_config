@@ -2,7 +2,7 @@ set nu
 "使用以下指令可以開啟vim的程式碼語法高亮功能
 syntax enable
 set sc
-
+set clipboard=unnamedplus
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
@@ -250,7 +250,14 @@ Plug 'Rip-Rip/clang_complete'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 Plug 'jacoborus/tender.vim'
-Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+"Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+Plug 'skanehira/preview-markdown.vim'
+"Plug 'iamcco/mathjax-support-for-mkdp'
+"Plug 'iamcco/markdown-preview.vim'
+"Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
+Plug 'yaegassy/coc-pydocstring', {'do': 'yarn install --frozen-lockfile'}
+" coc-sh bash-languageserver
+Plug 'prabirshrestha/vim-lsp'
 call plug#end()
 
 
@@ -269,7 +276,46 @@ let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
 "let g:instant_markdown_python = 1
 let g:instant_markdown_browser = "google-chrome --new-window"
 """"""""""""""""""""""""""""""""""vim-instant-markdown end""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:coc_disable_startup_warning = 1
 
+""""""""""""""""""""""""""""""""""begin preview-markdown""""""""""""""""
+let g:preview_markdown_vertical = 1
+"let g:preview_markdown_parser = "glow"
+let g:preview_markdown_parser = "mdr"
+""""""""""""""""""""""""""""""""""end preview-markdown""""""""""""""""
+""""""""""""""""""""""""""""""""""begin markdown-preview""""""""""""""""
+let g:mkdp_path_to_chrome = ""
+" Path to the chrome or the command to open chrome (or other modern browsers).
+" If set, g:mkdp_browserfunc would be ignored.
+
+let g:mkdp_browserfunc = 'MKDP_browserfunc_default'
+" Callback Vim function to open browser, the only parameter is the url to open.
+
+let g:mkdp_auto_start = 0
+" Set to 1, Vim will open the preview window on entering the Markdown
+" buffer.
+
+let g:mkdp_auto_open = 0
+" Set to 1, Vim will automatically open the preview window when you edit a
+" Markdown file.
+
+let g:mkdp_auto_close = 1
+" Set to 1, Vim will automatically close the current preview window when
+" switching from one Markdown buffer to another.
+
+let g:mkdp_refresh_slow = 0
+" Set to 1, Vim will just refresh Markdown when saving the buffer or
+" leaving from insert mode. With default 0, it will automatically refresh
+" Markdown as you edit or move the cursor.
+
+let g:mkdp_command_for_global = 0
+" Set to 1, the MarkdownPreview command can be used for all files,
+" by default it can only be used in Markdown files.
+
+let g:mkdp_open_to_the_world = 0
+" Set to 1, the preview server will be available to others in your network.
+" By default, the server only listens on localhost (127.0.0.1).
+""""""""""""""""""""""""""""""""""end makrdown-preview""""""""""""""""
 """"""""""""""""""""""""""""""""""""for easy open :CocConfig start""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "To enable highlight current symbol on CursorHold, add:
 "To disable coc provide color highlight, add:
@@ -311,6 +357,10 @@ set shortmess+=c
 " editor using mouse. If set yes, you'd better copy vim multi-lines use
 " ("+$nyy) to copy it to paster, therefore, I'd like to set it to "no"
 set signcolumn=no
+set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,cp936
+set fileencoding=gb2312
+set termencoding=utf-8
 
 """""""""""""""""""使用tab补全""""""""""""""""""""""""""""
 " Use tab for trigger completion with characters ahead and navigate.
@@ -432,6 +482,11 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 let g:coc_start_at_startup=1
+
+"" pydocstring config
+nmap <silent> gab <Plug>(coc-codeaction-line)
+xmap <silent> gab <Plug>(coc-codeaction-selected)
+nmap <silent> gab <Plug>(coc-codeaction)
 """"""""""""""""""""""""""""""""""""for easy open :CocConfig end""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "colorscheme molokai
@@ -482,6 +537,7 @@ let g:clang_user_options='-stdlib=libc++ -std=c++11 -IIncludePath'
 "noremap <leader>rv :call LanguageClient#textDocument_hover()<cr>
 
 nnoremap <C-p> :Files<CR>
+nnoremap [b :Buffers<CR>
 nnoremap <C-j> :TlistToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <c-U> :Ag<space>
@@ -507,6 +563,18 @@ function! Zoom ()
 endfunction
 
 nmap <C-w>z :call Zoom()<CR>
+
+
+"""""""""""""""""""""""""""""For Vim 8 or later install the plugin prabirshrestha/vim-lsp and add the following configuration to .vimrc""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""begin:userd for coc-sh""""""""""""""""""""""""""""""""
+if executable('bash-language-server')
+  au User lsp_setup call lsp#register_server({
+        \ 'name': 'bash-language-server',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+        \ 'allowlist': ['sh'],
+        \ })
+endif
+"""""""""""""""""""""""""""""end:userd for coc-sh""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""智能判断光标就近位置""""""""""""""""""""""""""""""""
 "这个实现的是像emacs那样智能切换光标在窗口中的位置(上/中/下)，
@@ -566,6 +634,100 @@ match WhitespaceEOL /\s\+$/
 hi Normal ctermfg=252 ctermbg=none
 "hi Normal guibg=NONE ctermbg=NONE
 
+
+""""""""""""""""""""""""""""""""""新建文件增加注释begin"""""""""""""""""""""""""""""""""""""""""
+" 当新建 .h .c .hpp .cpp .mk .sh等文件时自动调用SetTitle 函数
+" autocmd BufNewFile *.[ch],*.hpp,*.cpp,Makefile,*.mk,*.sh exec ":call SetTitle()"
+autocmd BufNewFile *.[ch],*.hpp,*.cpp,*.java,*.py,*.sh exec ":call SetTitle()"
+" 加入注释
+func SetComment()
+	call setline(1,"/*================================================================")
+	call append(line("."),   "*   Copyright (C) ".strftime("%Y")." All rights reserved.")
+	call append(line(".")+1, "*")
+	call append(line(".")+2, "*   File Name     ：".expand("%:t"))
+	call append(line(".")+3, "*   Author        ：Wenbing.Wang")
+	call append(line(".")+4, "*   Created Time  ：".strftime("%Y-%m-%d"))
+	call append(line(".")+5, "*   Description   ：")
+	call append(line(".")+6, "*")
+	call append(line(".")+7, "================================================================*/")
+	call append(line(".")+8, "")
+	call append(line(".")+9, "")
+endfunc
+" 加入shell,Makefile注释
+func SetComment_sh()
+	call setline(3, "#================================================================")
+	call setline(4, "#   Copyright (C) ".strftime("%Y")." All rights reserved.")
+	call setline(5, "#")
+	call setline(6, "#   File Name      ：".expand("%:t"))
+	call setline(7, "#   Author         ：Wenbing.Wang")
+	call setline(8, "#   Created Time   ：".strftime("%Y-%m-%d"))
+	call setline(9, "#   Description    ：")
+	call setline(10, "#")
+	call setline(11, "#================================================================")
+	call setline(12, "")
+	call setline(13, "")
+endfunc
+" 定义函数SetTitle，自动插入文件头
+func SetTitle()
+	if &filetype == 'make'
+		call setline(1,"")
+		call setline(2,"")
+		call SetComment_sh()
+
+	elseif &filetype == 'sh'
+		call setline(1,"#! /bin/bash")
+		call setline(2,"")
+		call SetComment_sh()
+
+	else
+	     call SetComment()
+	     if expand("%:e") == 'hpp'
+		  call append(line(".")+10, "#ifndef _".toupper(expand("%:t:r"))."_H")
+		  call append(line(".")+11, "#define _".toupper(expand("%:t:r"))."_H")
+		  call append(line(".")+12, "#ifdef __cplusplus")
+		  call append(line(".")+13, "extern \"C\"")
+		  call append(line(".")+14, "{")
+		  call append(line(".")+15, "#endif")
+		  call append(line(".")+16, "")
+		  call append(line(".")+17, "#ifdef __cplusplus")
+		  call append(line(".")+18, "}")
+		  call append(line(".")+19, "#endif")
+		  call append(line(".")+20, "#endif //".toupper(expand("%:t:r"))."_H")
+
+	     elseif expand("%:e") == 'h'
+	  	call append(line(".")+10, "#pragma once")
+	     elseif &filetype == 'c'
+	  	call append(line(".")+10,"#include \"".expand("%:t:r").".h\"")
+	     elseif &filetype == 'cpp'
+	  	call append(line(".")+10, "#include \"".expand("%:t:r").".hpp\"")
+	    elseif &filetype == 'cc'
+            call append(line(".")+10, "#include \"".expand("%:t:r").".hpp\"")
+        elseif &filetype == 'py'
+            call setline(1, "\#coding=utf8")
+            call setline(2, "\"\"\"")
+            call setline(3, "\# Author: Wenbing.Wang")
+            call setline(4, "\# Created Time : ".strftime("%c"))
+            call setline(5, "")
+            call setline(6, "\# File Name: ".expand("%"))
+            call setline(7, "\# Description:")
+            call setline(8, "")
+            call setline(9, "\"\"\"")
+            call setline(10,"")
+        elseif &filetype == 'java'
+            call setline(1, "//coding=utf8")
+            call setline(2, "/*************************************************************************")
+            call setline(3, "\ @Author: Wenbing.Wang")
+            call setline(4, "\ @Created Time : ".strftime("%c"))
+            call setline(5, "")
+            call setline(6, "\ @File Name: ".expand("%"))
+            call setline(7, "\ @Description:")
+            call setline(8, "")
+            call setline(9, " ************************************************************************/")
+            call setline(10,"")
+	     endif
+	endif
+endfunc
+""""""""""""""""""""""""""""""""""新建文件增加注释end"""""""""""""""""""""""""""""""""""""""""
 "必须得放在所有设置主题的最后面，否则会不显示颜色
-source /home/cannon/.vim/autoload/mark.vim
+source ${HOME}/.vim/autoload/mark.vim
 
