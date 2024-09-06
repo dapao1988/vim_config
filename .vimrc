@@ -6,6 +6,7 @@ set clipboard=unnamedplus
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
+set t_Co=256
 filetype off
 "基本配置
 set wildmenu
@@ -276,7 +277,6 @@ let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
 "let g:instant_markdown_python = 1
 let g:instant_markdown_browser = "google-chrome --new-window"
 """"""""""""""""""""""""""""""""""vim-instant-markdown end""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:coc_disable_startup_warning = 1
 
 """"""""""""""""""""""""""""""""""begin preview-markdown""""""""""""""""
 let g:preview_markdown_vertical = 1
@@ -538,6 +538,7 @@ let g:clang_user_options='-stdlib=libc++ -std=c++11 -IIncludePath'
 
 nnoremap <C-p> :Files<CR>
 nnoremap [b :Buffers<CR>
+nnoremap [c :Colors<CR>
 nnoremap <C-j> :TlistToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <c-U> :Ag<space>
@@ -678,7 +679,6 @@ func SetTitle()
 		call setline(1,"#! /bin/bash")
 		call setline(2,"")
 		call SetComment_sh()
-
 	else
 	     call SetComment()
 	     if expand("%:e") == 'hpp'
@@ -702,7 +702,7 @@ func SetTitle()
 	  	call append(line(".")+10, "#include \"".expand("%:t:r").".hpp\"")
 	    elseif &filetype == 'cc'
             call append(line(".")+10, "#include \"".expand("%:t:r").".hpp\"")
-        elseif &filetype == 'py'
+        elseif &filetype == 'python'
             call setline(1, "\#coding=utf8")
             call setline(2, "\"\"\"")
             call setline(3, "\# Author: Wenbing.Wang")
@@ -724,7 +724,7 @@ func SetTitle()
             call setline(8, "")
             call setline(9, " ************************************************************************/")
             call setline(10,"")
-	     endif
+	    endif
 	endif
 endfunc
 """"""""""""""""""""""""""""""""""新建文件增加注释end"""""""""""""""""""""""""""""""""""""""""
