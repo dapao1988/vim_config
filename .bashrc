@@ -82,6 +82,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto --exclude-dir=\.repo --exclude-dir=\.ccls-cache --exclude-dir=\.git --exclude=\.ccls --exclude=tags'
     alias fgrep='fgrep --color=auto --exclude-dir=\.repo --exclude-dir=\.ccls-cache --exclude-dir=\.git --exclude=\.ccls --exclude=tags'
     alias egrep='egrep --color=auto --exclude-dir=\.repo --exclude-dir=\.ccls-cache --exclude-dir=\.git --exclude=\.ccls --exclude=tags'
+    alias takeover="tmux detach -a"
 fi
 
 # colored GCC warnings and errors
