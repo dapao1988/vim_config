@@ -103,6 +103,10 @@ if &t_Co < 256
 	hi MarkWord4 guifg=Black ctermfg=Black guibg=#00D7FF ctermbg=Cyan
 	hi MarkWord5 guifg=White ctermfg=White guibg=#0087FF ctermbg=Blue
 	hi MarkWord6 guifg=White ctermfg=White guibg=#AF00FF ctermbg=Magenta
+  hi MarkWord7 guifg=Black ctermfg=Black guibg=#FF87AF ctermbg=LightGray
+  hi MarkWord8 guifg=Black ctermfg=Black guibg=#FF5F00 ctermbg=LightGreen
+  hi MarkWord9 guifg=White ctermfg=White guibg=#8700FF ctermbg=Brown
+  hi MarkWord10 guifg=Black ctermfg=Black guibg=#5FAFFF ctermbg=LightBlue
 else
 	exec "hi MarkWord1 guifg=White ctermfg=White guibg=#FF0000 ctermbg=".s:RGB(5,0,0)
 	exec "hi MarkWord2 guifg=Black ctermfg=Black guibg=#FFD700 ctermbg=".s:RGB(5,4,0)
@@ -110,6 +114,10 @@ else
 	exec "hi MarkWord4 guifg=Black ctermfg=Black guibg=#00D7FF ctermbg=".s:RGB(0,4,5)
 	exec "hi MarkWord5 guifg=White ctermfg=White guibg=#0087FF ctermbg=".s:RGB(0,2,5)
 	exec "hi MarkWord6 guifg=White ctermfg=White guibg=#AF00FF ctermbg=".s:RGB(3,0,5)
+  exec "hi MarkWord7 guifg=Black ctermfg=Black guibg=#FF87AF ctermbg=".s:RGB(5,1,3)
+  exec "hi MarkWord8 guifg=Black ctermfg=Black guibg=#FF5F00 ctermbg=".s:RGB(5,2,0)
+  exec "hi MarkWord9 guifg=White ctermfg=White guibg=#8700FF ctermbg=".s:RGB(2,0,5)
+  exec "hi MarkWord10 guifg=Black ctermfg=Black guibg=#5FAFFF ctermbg=".s:RGB(1,3,5)
 endif
 
 " Anti reinclusion guards
