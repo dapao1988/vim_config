@@ -1,0 +1,74 @@
+[alias]
+        br = branch
+        co = checkout
+        ci = commit
+        st = status
+        hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+        type = cat-file -t
+        dump = cat-file -p
+	log = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+[user]
+
+#####rokid config#############
+#    mail = wenbing.wang@rokid.com
+#	name = Wenbing.Wang
+#	email = wenbing.wang@rokid.com
+#####rokid config end#############
+#####google config#############
+    mail = wangwenbingood1988@gmail.com
+	name = Wenbing.Wang
+	email = wangwenbingood1988@gmail.com
+#####google config end#############
+[color]
+        ui = auto
+
+[core]
+	editor = vim
+	compression = 0
+	sparsecheckout = true
+	encoding = utf-8
+	quotepath = false
+
+[diff]
+	tool = bcompare
+
+[difftool "bcompare"]
+	cmd = \"/usr/bin/bcompare\" \"$LOCAL\" \"$REMOTE\"
+
+[difftool]
+	prompt = false
+
+[merge]
+	tool = bcompare
+
+[mergetool]
+	prompt = false
+
+[mergetool "bcompare"]
+	cmd = \"/usr/bin/bcompare\" \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\"
+[http]
+	postBuffer = 524288000
+	maxRequestBuffer = 100M
+[filter "lfs"]
+	smudge = git-lfs smudge --skip -- %f
+	process = git-lfs filter-process --skip
+	required = true
+	clean = git-lfs clean -- %f
+[https]
+	postBuffer = 524288000
+[credential]
+	helper = store
+[safe]
+	directory = /nas-1/nas-voice-1/llm_dataset/bge/bge-reranker-large
+	directory = /home/hongzhi.sun
+	directory = /home/hongzhi.sun/llama-android
+	directory = /nas-1/nas-voice-1/llm_dataset/benchmark/data/human-eval
+[i18n]
+	logEncoding = UTF-8
+	diffEncoding = UTF-8
+	logoutputencoding = utf-8
+[gui]
+	encoding = utf-8
+[i18n "commit"]
+	encoding = utf-8
