@@ -1,5 +1,13 @@
 {
     "languageserver": {
+        "clangd": {
+              "command": "clangd",
+              "rootPatterns": ["compile_commands.json", "CMakeLists.txt"],
+              "filetypes": ["cc", "c", "cpp", "objc", "objcpp"],
+              "initializationOptions": {
+                "clangdFileStatus": true
+              }
+        },
         "ccls": {
             "command": "ccls",
             "filetypes": ["c", "cpp", "objc", "objcpp"],
@@ -9,6 +17,18 @@
                     "directory": "/tmp/ccls"
                 }
             }
+        },
+        "bash": {
+            "command": "bash-language-server",
+            "args": [
+                "start"
+            ],
+            "filetypes": [
+                "sh"
+            ],
+            "ignoredRootPaths": [
+                "~"
+            ]
         },
         "python": {
             "command": "python",
@@ -77,6 +97,5 @@
                 }
             }
         }
-    },
-    "java.errors.incompleteClasspath.severity": "ignore"
+    }
 }
