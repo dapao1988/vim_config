@@ -120,6 +120,37 @@ fi
 
 [ -f ~/.bashrc_docker ] && . ~/.bashrc_docker
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+#""""""""""""""""""""""""""""""""""fzf setting start""""""""""""""""""""""""""""""""""""""""""""""""""
+#"# 这行配置开启 ag 查找隐藏文件 及忽略 .git 文件
+#export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore ".*tags" --ignore __pycache__ --ignore .ccls-cache --ignore .ccls -l -g ""'
+# 直接输入 fe 然后回车会自动出现当前目录的 fzf，选择文件之后回车即可用默认 $EDITOR 打开文件。
+fe() {
+  local files
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+# 终端输入 fd 然后搜索一下目录回车就能直接到该目录下
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+				  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+# fkill - kill process
+# fkill 用来 kill process
+fkill() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+	echo $pid | xargs kill -${1:-9}
+  fi
+}
+# https://github.com/wfxr/forgit
+#""""""""""""""""""""""""""""""""""fzf setting end""""""""""""""""""""""""""""""""""""""""""""""""""
+export PATH="/usr/local/tmux/bin"${PATH:+:${PATH}}
 alias tmux="TERM=screen-256color-bce tmux -u"
 export TERM="xterm"
 export JAVA_HOME=/opt/jdk1.8.0_171
@@ -193,3 +224,9 @@ export VCG_ROOT=/home/wenbing.wang/work/aiar/vcglib
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+if [[ -n "$TMUX" ]]; then
+  umask 002
+fi
+
+
