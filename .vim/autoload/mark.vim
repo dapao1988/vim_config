@@ -113,12 +113,11 @@ else
 	exec "hi MarkWord2 guifg=Black ctermfg=Black guibg=#FFD700 ctermbg=".s:RGB(5,4,0)
 	exec "hi MarkWord3 guifg=Black ctermfg=Black guibg=#5FD700 ctermbg=".s:RGB(1,4,0)
 	exec "hi MarkWord4 guifg=Black ctermfg=Black guibg=#00D7FF ctermbg=".s:RGB(0,4,5)
-	"exec "hi MarkWord5 guifg=White ctermfg=White guibg=#0087FF ctermbg=".s:RGB(0,2,5)
   exec "hi MarkWord5 guifg=White ctermfg=White guibg=#00008B ctermbg=".s:RGB(0,0,18)
 	exec "hi MarkWord6 guifg=White ctermfg=White guibg=#AF00FF ctermbg=".s:RGB(3,0,5)
   exec "hi MarkWord7 guifg=Black ctermfg=Black guibg=#FF87AF ctermbg=".s:RGB(5,1,3)
   exec "hi MarkWord8 guifg=Black ctermfg=Black guibg=#FF5F00 ctermbg=".s:RGB(5,2,0)
-  exec "hi MarkWord9 guifg=White ctermfg=White guibg=#8700FF ctermbg=".s:RGB(2,0,5)
+  exec "hi MarkWord9 guifg=White ctermfg=White guibg=#8700FF ctermbg=".s:RGB(1,0,2)
   exec "hi MarkWord10 guifg=Black ctermfg=Black guibg=#5FAFFF ctermbg=".s:RGB(1,3,5)
 endif
 
