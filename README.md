@@ -5,7 +5,7 @@
 ##### cgdb config
 ##### markdown edit on Linux & preview on Macos/Windows
 
-![realtime preview](./assets/markdown-preview.gif)
+<img width="1980" alt="markdown realtime preview" src="https://i.imgur.com/Fxlz5Xf.gif">
 
 - [markdown-preview](https://github.com/iamcco/markdown-preview.vim/blob/master/README_cn.md)
     - vim plugin
