@@ -1,0 +1,7 @@
+# https://blog.hanxi.cc/p/17/
+# https://github.com/lemonade-command/lemonade/blob/master/README.md
+port = 2489
+host = 'xx.xx.xx.xx'  # your server ip, if linux->macos, then it's macos ip
+trans-loopback = true
+trans-localfile = true
+line-ending = 'lf'
