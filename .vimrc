@@ -3,7 +3,7 @@ set nu
 syntax enable
 set sc
 set clipboard=unnamedplus
-if $COLORTERM == 'gnome-terminal'
+if $TERM == "xterm" || $TERM == "rxvt" || $TERM == "xterm-256color" || $TERM == "rxvt-unicode" || &term =~ "builtin_gui" || $TERM == "dumb"
   set t_Co=256
 endif
 set t_Co=256
@@ -247,14 +247,10 @@ Plug 'tpope/vim-dispatch'
 Plug 'flazz/vim-colorschemes'
 Plug 'rking/ag.vim'
 Plug 'Rip-Rip/clang_complete'
-"
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 Plug 'jacoborus/tender.vim'
-"Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
-Plug 'skanehira/preview-markdown.vim'
-"Plug 'iamcco/mathjax-support-for-mkdp'
-"Plug 'iamcco/markdown-preview.vim'
+Plug 'iamcco/mathjax-support-for-mkdp'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 "Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
 Plug 'yaegassy/coc-pydocstring', {'do': 'yarn install --frozen-lockfile'}
 " coc-sh bash-languageserver
@@ -263,59 +259,140 @@ call plug#end()
 
 
 """"""""""""""""""""""""""""""""""vim-instant-markdown start""""""""""""""""""""""""""""""""""""""""""""""""""
-filetype plugin on
-"Uncomment to override defaults:
-"let g:instant_markdown_slow = 1
-"let g:instant_markdown_autostart = 0
-"let g:instant_markdown_open_to_the_world = 1
-"let g:instant_markdown_allow_unsafe_content = 1
-"let g:instant_markdown_allow_external_content = 0
-"let g:instant_markdown_mathjax = 1
-let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
-"let g:instant_markdown_autoscroll = 0
-"let g:instant_markdown_port = 8876
-"let g:instant_markdown_python = 1
-let g:instant_markdown_browser = "google-chrome --new-window"
+" set to 1, nvim will open the preview window after entering the Markdown buffer
+" default: 0
+let g:mkdp_auto_start = 0
+
+" set to 1, the nvim will auto close current preview window when changing
+" from Markdown buffer to another buffer
+" default: 1
+let g:mkdp_auto_close = 0
+
+" set to 1, Vim will refresh Markdown when saving the buffer or
+" when leaving insert mode. Default 0 is auto-refresh Markdown as you edit or
+" move the cursor
+" default: 0
+let g:mkdp_refresh_slow = 0
+
+" set to 1, the MarkdownPreview command can be used for all files,
+" by default it can be use in Markdown files only
+" default: 0
+let g:mkdp_command_for_global = 0
+
+" set to 1, the preview server is available to others in your network.
+" By default, the server listens on localhost (127.0.0.1)
+" default: 0
+let g:mkdp_open_to_the_world = 1
+
+" use custom IP to open preview page.
+" Useful when you work in remote Vim and preview on local browser.
+" For more details see: https://github.com/iamcco/markdown-preview.nvim/pull/9
+" default empty
+let g:mkdp_open_ip = ''
+
+" specify browser to open preview page
+" for path with space
+" valid: `/path/with\ space/xxx`
+" invalid: `/path/with\\ space/xxx`
+" default: ''
+let g:mkdp_browser = ''
+
+" set to 1, echo preview page URL in command line when opening preview page
+" default is 0
+let g:mkdp_echo_preview_url = 0
+
+" a custom Vim function name to open preview page
+" this function will receive URL as param
+" default is empty
+let g:mkdp_browserfunc = ''
+
+" options for Markdown rendering
+" mkit: markdown-it options for rendering
+" katex: KaTeX options for math
+" uml: markdown-it-plantuml options
+" maid: mermaid options
+" disable_sync_scroll: whether to disable sync scroll, default 0
+" sync_scroll_type: 'middle', 'top' or 'relative', default value is 'middle'
+"   middle: means the cursor position is always at the middle of the preview page
+"   top: means the Vim top viewport always shows up at the top of the preview page
+"   relative: means the cursor position is always at relative positon of the preview page
+" hide_yaml_meta: whether to hide YAML metadata, default is 1
+" sequence_diagrams: js-sequence-diagrams options
+" content_editable: if enable content editable for preview page, default: v:false
+" disable_filename: if disable filename header for preview page, default: 0
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1,
+    \ 'sequence_diagrams': {},
+    \ 'flowchart_diagrams': {},
+    \ 'content_editable': v:false,
+    \ 'disable_filename': 0,
+    \ 'toc': {}
+    \ }
+
+" use a custom Markdown style. Must be an absolute path
+" like '/Users/username/markdown.css' or expand('~/markdown.css')
+let g:mkdp_markdown_css = ''
+
+" use a custom highlight style. Must be an absolute path
+" like '/Users/username/highlight.css' or expand('~/highlight.css')
+let g:mkdp_highlight_css = ''
+
+" use a custom port to start server or empty for random
+let g:mkdp_port = ''
+
+" preview page title
+" ${name} will be replace with the file name
+let g:mkdp_page_title = '「${name}」'
+
+" use a custom location for images
+let g:mkdp_images_path = '${HOME}/.markdown_images'
+
+" recognized filetypes
+" these filetypes will have MarkdownPreview... commands
+let g:mkdp_filetypes = ['markdown']
+
+" set default theme (dark or light)
+" By default the theme is defined according to the preferences of the system
+let g:mkdp_theme = 'dark'
+
+" combine preview window
+" default: 0
+" if enable it will reuse previous opened preview window when you preview markdown file.
+" ensure to set let g:mkdp_auto_close = 0 if you have enable this option
+let g:mkdp_combine_preview = 0
+
+" auto refetch combine preview contents when change markdown buffer
+" only when g:mkdp_combine_preview is 1
+let g:mkdp_combine_preview_auto_refresh = 1
+
+" when vim on server, and markdown display on local client
+let g:mkdp_open_to_the_world = 1
+let g:mkdp_open_ip = '10.81.10.3'
+let g:mkdp_port = 8090
+let g:mkdp_echo_preview_url = 1
+let g:mkdp_browser = 'none'
+" using lemonade to open url from linux client to macos/windows server
+function! g:Open_browser(url)
+    silent exe '!lemonade open 'a:url
+endfunction
+" or just to echo url from linux and open url manually on macos/windows
+function! g:EchoUrl(url)
+    :echo a:url
+endfunction
+"https://github.com/lemonade-command/lemonade/blob/master/README.md
+let g:mkdp_browserfunc = 'g:Open_browser'
+"let g:mkdp_browserfunc = 'g:EchoUrl'
+nmap [d <Plug>MarkdownPreview
+"nmap <M-s> <Plug>MarkdownPreviewStop
+"nmap <C-p> <Plug>MarkdownPreviewToggle
 """"""""""""""""""""""""""""""""""vim-instant-markdown end""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""""""begin preview-markdown""""""""""""""""
-let g:preview_markdown_vertical = 1
-"let g:preview_markdown_parser = "glow"
-let g:preview_markdown_parser = "mdr"
-""""""""""""""""""""""""""""""""""end preview-markdown""""""""""""""""
-""""""""""""""""""""""""""""""""""begin markdown-preview""""""""""""""""
-let g:mkdp_path_to_chrome = ""
-" Path to the chrome or the command to open chrome (or other modern browsers).
-" If set, g:mkdp_browserfunc would be ignored.
-
-let g:mkdp_browserfunc = 'MKDP_browserfunc_default'
-" Callback Vim function to open browser, the only parameter is the url to open.
-
-let g:mkdp_auto_start = 0
-" Set to 1, Vim will open the preview window on entering the Markdown
-" buffer.
-
-let g:mkdp_auto_open = 0
-" Set to 1, Vim will automatically open the preview window when you edit a
-" Markdown file.
-
-let g:mkdp_auto_close = 1
-" Set to 1, Vim will automatically close the current preview window when
-" switching from one Markdown buffer to another.
-
-let g:mkdp_refresh_slow = 0
-" Set to 1, Vim will just refresh Markdown when saving the buffer or
-" leaving from insert mode. With default 0, it will automatically refresh
-" Markdown as you edit or move the cursor.
-
-let g:mkdp_command_for_global = 0
-" Set to 1, the MarkdownPreview command can be used for all files,
-" by default it can only be used in Markdown files.
-
-let g:mkdp_open_to_the_world = 0
-" Set to 1, the preview server will be available to others in your network.
-" By default, the server only listens on localhost (127.0.0.1).
-""""""""""""""""""""""""""""""""""end makrdown-preview""""""""""""""""
 """"""""""""""""""""""""""""""""""""for easy open :CocConfig start""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "To enable highlight current symbol on CursorHold, add:
 "To disable coc provide color highlight, add:
@@ -490,7 +567,8 @@ nmap <silent> gab <Plug>(coc-codeaction)
 """"""""""""""""""""""""""""""""""""for easy open :CocConfig end""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "colorscheme molokai
-colorscheme molokai    "red+green+brown   "the previous used
+colorscheme molokai_dark
+"colorscheme molokai    "red+green+brown   "the previous used
 "colorscheme default "red+green+brown
 "colorscheme torte
 "
@@ -538,10 +616,13 @@ let g:clang_user_options='-stdlib=libc++ -std=c++11 -IIncludePath'
 
 nnoremap <C-p> :Files<CR>
 nnoremap [b :Buffers<CR>
+nnoremap [w :Windows<CR>
+nnoremap [m :Marks<CR>
+nnoremap [j :Jumps<CR>
 nnoremap [c :Colors<CR>
+nnoremap [s :Ag<space>
 nnoremap <C-j> :TlistToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
-nnoremap <c-U> :Ag<space>
 "nnoremap <c-U> :Ag <C-R><C-W>
 "map <C-F12> :ctags -R --languages=c++ --langmap=c++:+.cc -h +.inl --c++-kinds=+px --fields=+iaKSz --extra=+q --exclude=lex.yy.cc --exclude=copy_lex.yy.cc -f tags .<CR>
 map <C-k> :!ctags -R --languages=c++ --langmap=c++:+.cc -h +.inl --c++-kinds=+px --fields=+iaKSz --extra=+q -f tags .<CR>
