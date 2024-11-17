@@ -96,7 +96,7 @@ endif
 """"""""""""""""""""""""""""""开启vim 24-bit真彩色"""""""""""""""""""""""""""
 
 "我們可以依照自己經常接觸的字元編碼和它們個別涵蓋的字元範圍及嚴謹程度來排列出嘗試解碼的順序，並設定給「fileencodings」環境變數儲存
-"set fileencodings=utf-8,utf-16,big5,gb2312,gbk,gb18030,euc-jp,euc-kr,latin1
+set fileencodings=utf-8,utf-16,big5,gb2312,gbk,gb18030,euc-jp,euc-kr,latin1
 
 "colorscheme slate
 "colorscheme ron
@@ -784,7 +784,7 @@ func SetTitle()
 	    elseif &filetype == 'cc'
             call append(line(".")+10, "#include \"".expand("%:t:r").".hpp\"")
         elseif &filetype == 'python'
-            call setline(1, "\#coding=utf8")
+            call setline(1, "\#coding=utf-8")
             call setline(2, "\"\"\"")
             call setline(3, "\# Author: Wenbing.Wang")
             call setline(4, "\# Created Time : ".strftime("%c"))
@@ -795,7 +795,7 @@ func SetTitle()
             call setline(9, "\"\"\"")
             call setline(10,"")
         elseif &filetype == 'java'
-            call setline(1, "//coding=utf8")
+            call setline(1, "//coding=utf-8")
             call setline(2, "/*************************************************************************")
             call setline(3, "\ @Author: Wenbing.Wang")
             call setline(4, "\ @Created Time : ".strftime("%c"))
