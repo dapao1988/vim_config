@@ -1,10 +1,6 @@
 export PATH=/opt/homebrew/bin:$PATH
-#export CLANG_PATH="/opt/clang+llvm-12.0.0-x86_64-apple-darwin"
-#export PATH="${CLANG_PATH}/bin:$PATH"
-#export DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH}:${CLANG_PATH}/bin:${CLANG_PATH}/lib"
 export PATH="$HOME/bin:$HOME/work/script:$PATH"
 export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:/opt/homebrew/opt/pkg-config-path"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home"
 #export MANPAGER='most -s'
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -153,12 +149,15 @@ fkill() {
 #""""""""""""""""""""""""""""""""""fzf setting end""""""""""""""""""""""""""""""""""""""""""""""""""
 alias tmux="TERM=screen-256color-bce tmux"
 export ANDROID_HOME=${HOME}/Android/sdk
-export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/25.2.9519653
-export ANDROID_SDK_ROOT=${ANDROID_HOME}/sdk
+export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/27.0.12077973
 export ANDROID_TOOL=${ANDROID_SDK_ROOT}/tools
 export PATH=$ANDROID_STUDIO_HOME:${ANDROID_TOOL}:$ANDROID_HOME:$PATH
 # PS1="\[\033[1;36;01m\]\u\[\033[00m\]\[\033[1;34;01m\]@\[\033[00m\]\[\033[1;32;01m\]\h\[\033[00m\]\[\033[34;01m\]:\[\033[00m\]\[\033[33;01m\# If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+# for QNN setting
+export QNN_SDK_ROOT="${HOME}/Downloads/qairt/2.35.0.250530"
+export ANDROID_NDK_ROOT=${ANDROID_NDK_HOME}
+export PATH=${ANDROID_NDK_ROOT}:${PATH}
 
 ######################################################zsh config begin##############################################################
 # Path to your oh-my-zsh installation.
@@ -235,6 +234,14 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+# 精简终端提示符的路径显示 - 只显示当前目录名，避免长路径占满屏幕宽度
+# 原来的 ys 主题会显示完整绝对路径，比如: ~/Downloads/qairt/2.35.0.250530/examples/QNN/SampleApp/SampleAppSharedBuffer
+# 修改后只显示最后1级目录: SampleAppSharedBuffer
+# %1~ 表示只显示最近1个目录，改为 %2~ 可显示最近2级，以此类推
+PROMPT="
+%{$terminfo[bold]$fg[cyan]%}# %n %{$fg[white]%}@ %{$fg[green]%}%m %{$fg[white]%}in %{$terminfo[bold]$fg[yellow]%}%1~ %{$reset_color%}
+%{$fg[red]%}%(!.#.»)%{$reset_color%} "
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -284,3 +291,5 @@ export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="$HOME/.local/bin:$PATH"

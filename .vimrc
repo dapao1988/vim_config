@@ -97,6 +97,11 @@ endif
 
 "我們可以依照自己經常接觸的字元編碼和它們個別涵蓋的字元範圍及嚴謹程度來排列出嘗試解碼的順序，並設定給「fileencodings」環境變數儲存
 set fileencodings=utf-8,utf-16,big5,gb2312,gbk,gb18030,euc-jp,euc-kr,latin1
+"设置vim内部使用的编码为 UTF - 8，确保 Vim 在处理文本时使用统一的编码。
+set encoding=utf-8
+"指定了 Vim 在保存文件时使用 UTF - 8 编码.无论打开的文件是什么编码，保存时都会以 UTF - 8 格式保存
+set fileencoding=utf-8
+set termencoding=utf-8
 
 "colorscheme slate
 "colorscheme ron
@@ -434,10 +439,6 @@ set shortmess+=c
 " editor using mouse. If set yes, you'd better copy vim multi-lines use
 " ("+$nyy) to copy it to paster, therefore, I'd like to set it to "no"
 set signcolumn=no
-set encoding=utf-8
-set fileencodings=ucs-bom,utf-8,cp936
-set fileencoding=gb2312
-set termencoding=utf-8
 
 """""""""""""""""""使用tab补全""""""""""""""""""""""""""""
 " Use tab for trigger completion with characters ahead and navigate.
@@ -583,12 +584,12 @@ colorscheme molokai_dark
 
 let Tlist_Ctags_Cmd="ctags"
 
-let g:ag_prg="/usr/bin/ag --vimgrep"
+let g:ag_prg="/opt/homebrew/bin/ag --vimgrep"
 let g:ag_working_path_mode="r"
 
 "clang_complete begin
 " path to directory where library can be found
-let g:clang_library_path="/opt/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04/lib"
+let g:clang_library_path="/opt/LLVM-22.1.0-macOS-ARM64/lib"
  " or path directly to the library file
  "clang_complete end
 let g:clang_complete_copen=1
@@ -620,12 +621,15 @@ nnoremap [w :Windows<CR>
 nnoremap [m :Marks<CR>
 nnoremap [j :Jumps<CR>
 nnoremap [c :Colors<CR>
-nnoremap [s :Ag<space>
+nnoremap [s :noautocmd Ag<space>
 nnoremap <C-j> :TlistToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 "nnoremap <c-U> :Ag <C-R><C-W>
 "map <C-F12> :ctags -R --languages=c++ --langmap=c++:+.cc -h +.inl --c++-kinds=+px --fields=+iaKSz --extra=+q --exclude=lex.yy.cc --exclude=copy_lex.yy.cc -f tags .<CR>
 map <C-k> :!ctags -R --languages=c++ --langmap=c++:+.cc -h +.inl --c++-kinds=+px --fields=+iaKSz --extra=+q -f tags .<CR>
+" <leader>默认是'\'键
+" 希望替换 \t 时，自动匹配 Vim 的 tabstop 配置（比如 tabstop=4 就替换成 4 个空格），需要用 Vim 的表达式替换，而非固定写空格数
+nnoremap <leader>c :%s/\t/\=repeat(' ', &tabstop)/ge<CR>:%s/\s\+$//e<CR>:noh<CR>
 
 " 用于最大模拟vim最大化窗口的
 function! Zoom ()
@@ -715,12 +719,14 @@ match WhitespaceEOL /\s\+$/
 " 也就是关闭colorschema设置, vim透明背景才能生效
 hi Normal ctermfg=252 ctermbg=none
 "hi Normal guibg=NONE ctermbg=NONE
+hi Search term=bold,reverse,underline cterm=bold,underline ctermfg=0 ctermbg=121 gui=bold guifg=bg guibg=LightGreen
 
 
 """"""""""""""""""""""""""""""""""新建文件增加注释begin"""""""""""""""""""""""""""""""""""""""""
 " 当新建 .h .c .hpp .cpp .mk .sh等文件时自动调用SetTitle 函数
 " autocmd BufNewFile *.[ch],*.hpp,*.cpp,Makefile,*.mk,*.sh exec ":call SetTitle()"
-autocmd BufNewFile *.[ch],*.hpp,*.cpp,*.java,*.py,*.sh exec ":call SetTitle()"
+autocmd BufNewFile *.[ch],*.hpp,*.cpp,*.java,*.py,*.sh,*.js exec ":call SetTitle()"
+autocmd BufRead,BufNewFile *.lst set filetype=text
 " 加入注释
 func SetComment()
 	call setline(1,"/*================================================================")
@@ -734,6 +740,20 @@ func SetComment()
 	call append(line(".")+7, "================================================================*/")
 	call append(line(".")+8, "")
 	call append(line(".")+9, "")
+endfunc
+" 加入js注释
+func SetComment_js()
+    call setline(1, "//================================================================")
+    call setline(2, "//   Copyright (C) ".strftime("%Y")." All rights reserved.")
+    call setline(3, "//")
+    call setline(4, "//   File Name      : ".expand("%:t"))
+    call setline(5, "//   Author         : Wenbing.Wang")
+    call setline(6, "//   Created Time   : ".strftime("%Y-%m-%d"))
+    call setline(7, "//   Description    : ")
+    call setline(8, "//")
+    call setline(9, "//================================================================")
+    call setline(10, "")
+    call setline(11, "")
 endfunc
 " 加入shell,Makefile注释
 func SetComment_sh()
@@ -756,6 +776,8 @@ func SetTitle()
 		call setline(2,"")
 		call SetComment_sh()
 
+	elseif &filetype == 'js'
+		call SetComment_js()
 	elseif &filetype == 'sh'
 		call setline(1,"#! /bin/bash")
 		call setline(2,"")
@@ -850,4 +872,6 @@ autocmd ColorScheme * call ReloadMarkVimColors()
 """"""""""""""""""""""""""""""""""fzf colors change & load mark.vim end"""""""""""""""""""""""""""""""""""""""""
 "必须得放在所有设置主题的最后面，否则会不显示颜色
 source ${HOME}/.vim/autoload/mark.vim
+let g:mw_state = 1               " 确保启动时标记可见
+let g:loaded_mark = 1            " 避免重复加载
 
