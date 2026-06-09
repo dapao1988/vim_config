@@ -895,6 +895,58 @@ endfunction
 " 监听颜色方案切换事件，在切换后重新加载 mark.vim 颜色配置
 autocmd ColorScheme * call ReloadMarkVimColors()
 
+" ============================================
+" 搜索工具：优先使用 rg，回退到 ag/fd/find
+" ============================================
+if executable('rg')
+    let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --smart-case '
+        \ . '-g "!.git/" '
+        \ . '-g "!.*tags" -g "!tags" -g "!TAGS" '
+        \ . '-g "!__pycache__/" -g "!*.pyc" -g "!*.pyo" '
+        \ . '-g "!.ccls-cache/" -g "!.ccls" '
+        \ . '-g "!*.o" -g "!*.d" -g "!*.a" -g "!*.so" -g "!*.obj" -g "!*.elf" '
+        \ . '-g "!*.swp" -g "!*.swo" -g "!*~" '
+        \ . '-g "!build/" -g "!out/" -g "!dist/" '
+        \ . '-g "!.cache/" -g "!.tmp/" '
+        \ . '-g "!compile_commands.json" '
+        \ . '-g "!node_modules/" -g "!*.egg-info"'
+
+    " :Rg 文本搜索同样排除
+    command! -bang -nargs=* Rg
+        \ call fzf#vim#grep(
+        \   'rg --column --line-number --no-heading --color=always --smart-case '
+        \   . '-g "!*.o" -g "!*.d" -g "!build/" -g "!.cache/" -g "!*.swp" -g "!.ccls-cache/" '
+        \   . shellescape(<q-args>), 1,
+        \   fzf#vim#with_preview(), <bang>0)
+else
+    " 回退到 ag（上面方案一的配置放这里）
+    let $FZF_DEFAULT_COMMAND = 'ag --hidden --nocolor ...（同上）'
+endif
+
+" coc 文件搜索也同步排除，避免 :Files 干净了但 coc 还显示垃圾
+if executable('rg')
+    call coc#config('list.source.files', {
+        \ 'command': 'rg',
+        \ 'args': ['--files', '--hidden', '--follow'],
+        \ 'excludePatterns': [
+        \   '**/.git/**', '**/build/**', '**/out/**', '**/dist/**',
+        \   '**/.cache/**', '**/.ccls-cache/**', '**/__pycache__/**',
+        \   '**/node_modules/**', '**/*.egg-info/**',
+        \   '**/*.o', '**/*.d', '**/*.a', '**/*.so', '**/*.obj',
+        \   '**/*.swp', '**/*.swo', '**/*~', '**/*.pyc',
+        \   '**/compile_commands.json', '**/tags', '**/TAGS'
+        \ ]
+        \ })
+endif
+
+" 修复 tmux/screen 粘贴阶梯缩进
+if &term =~ "tmux" || &term =~ "screen"
+    let &t_BE = "\e[?2004h"
+    let &t_BD = "\e[?2004l"
+    let &t_PS = "\e[200~"
+    let &t_PE = "\e[201~"
+endif
+
 """"""""""""""""""""""""""""""""""fzf colors change & load mark.vim end"""""""""""""""""""""""""""""""""""""""""
 "必须得放在所有设置主题的最后面，否则会不显示颜色
 source ${HOME}/.vim/autoload/mark.vim
