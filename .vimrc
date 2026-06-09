@@ -72,6 +72,18 @@ set ruler
 set re=1
 set ttyfast
 set lazyredraw
+
+" ============================================
+" 终端按键响应优化
+" 解决：ESC退出延迟、[b等双键映射不跟手
+" ============================================
+set timeoutlen=300          " 映射序列超时（如 [b），默认1000ms太长
+set ttimeoutlen=10          " 终端键码超时，根治 ESC 退出延迟
+" 选配：若终端老旧/功能键异常，可改大 ttimeoutlen：
+" set ttimeoutlen=100
+" 选配：若常按错多键映射，可改大 timeoutlen：
+" set timeoutlen=500
+
 set background=dark
 "vim可以透過「fileencodings」環境變數，設定其在開啟文字檔時要優先使用什麼字元編碼方式來開啟。但前提是它在編譯前要先設定好有支援「multi_byte」功能。可以在「.vimrc」檔案中撰寫以下判斷式來判斷vim有無支援「multi_byte」功能
 if has("multi_byte")
@@ -261,6 +273,20 @@ Plug 'yaegassy/coc-pydocstring', {'do': 'yarn install --frozen-lockfile'}
 " coc-sh bash-languageserver
 Plug 'prabirshrestha/vim-lsp'
 call plug#end()
+
+" ============================================
+" fzf 浮动窗口布局配置（Vim 8.2+ 生效）
+" 作用：竖屏下避免 split 占满半屏，ESC 直接消失无窗口恢复卡顿
+" 低版本 Vim 自动回退到默认 split，不会报错
+" ============================================
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.5, 'highlight': 'Normal' } }
+" 选配：圆形边框风格（需终端支持 popup 边框绘制）
+" let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.5, 'border': 'rounded' } }
+" 选配：全屏居中显示
+" let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.8, 'highlight': 'Normal' } }
+" 选配：若 Vim < 8.2 且想自定义 split 方向，改用下面之一：
+" let g:fzf_layout = { 'down': '40%' }
+" let g:fzf_layout = { 'right': '40%' }
 
 
 """"""""""""""""""""""""""""""""""vim-instant-markdown start""""""""""""""""""""""""""""""""""""""""""""""""""
